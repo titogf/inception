@@ -1,0 +1,16 @@
+FROM debian:latest
+
+RUN mkdir -p /var/www/html
+
+WORKDIR /var/www/html
+
+RUN apt-get -y update && apt install -y php-fpm php-mysql curl
+
+COPY ./tools/script.sh /script.sh
+COPY ./conf/wp-config.php /wp-config.php
+
+RUN chmod +x /script.sh
+
+EXPOSE 9000
+
+CMD ["sh", "/script.sh"]
