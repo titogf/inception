@@ -10,8 +10,6 @@ services:
       - inception
     depends_on:
       - wordpress
-    volumes:
-      - wordpress_files:/var/www/html
     restart: always
 
   wordpress:
@@ -21,12 +19,10 @@ services:
       - mariadb
     networks:
       - inception
+    env_file:
+      - .env
     volumes:
       - wordpress_files:/var/www/html
-    environment:
-      - WORDPRESS_DB_HOST=mariadb
-      - WORDPRESS_DB_USER=${WP_USER}
-      - WORDPRESS_DB_PASSWORD=${WP_PASSWORD}
     restart: always
 
   mariadb:
@@ -34,13 +30,10 @@ services:
     container_name: mariadb
     networks:
       - inception
+    env_file:
+      - .env
     volumes:
       - db_data:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
     restart: always
 
 networks:
@@ -48,4 +41,15 @@ networks:
 
 volumes:
   db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/gonfa/volumes/db_data
+      o: bind
+      
   wordpress_files:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/gonfa/volumes/wordpress_files
+      o: bind

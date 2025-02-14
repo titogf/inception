@@ -6,7 +6,7 @@ all: up
 
 up:
 	@echo "$(GREEN)Starting up containers$(NC)"
-	docker-compose -f srcs/docker-compose.yml up --build -d
+	sudo docker-compose -f srcs/docker-compose.yml up --build -d
 
 down:
 	@echo "$(RED)Stopping containers$(NC)"
