@@ -15,6 +15,11 @@ down:
 re: down up
 
 clean:
-	docker system prune -af
+	@echo "$(RED)Removing containers and images$(NC)"
+	sudo docker stop mariadb nginx wordpress
+	sudo docker rm nginx mariadb wordpress
+	sudo docker rmi nginx wordpress mariadb
+	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/*
+	docker system prune -f
 
 .PHONY: all up down re clean

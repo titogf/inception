@@ -44,12 +44,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/gonfa/volumes/db_data
+      device: /home/debian/volumes/db_data
       o: bind
       
   wordpress_files:
     driver: local
     driver_opts:
       type: none
-      device: /home/gonfa/volumes/wordpress_files
+      device: /home/debian/volumes/wordpress_files
       o: bind
