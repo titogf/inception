@@ -1,6 +1,8 @@
 FROM debian:latest
 
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
+
+RUN mkdir -p tmp && chown -R www-data:www-data tmp
 
 WORKDIR /var/www/html
 

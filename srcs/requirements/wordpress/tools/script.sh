@@ -5,23 +5,24 @@ WORDPRESS_DIR="/var/www/html"
 WP_CONFIG_SOURCE="/wp-config.php"
 
 echo "Descargando WordPress..."
-curl -q $WORDPRESS_URL -O /tmp/wordpress.tar.gz
+curl -sSL "$WORDPRESS_URL" -o /tmp/wordpress.tar.gz
 
 echo "Descomprimiendo WordPress..."
 tar -xzf /tmp/wordpress.tar.gz -C /tmp
 
-echo "Moviendo archivos de WordPress a $WORDPRESS_DIR..."
-mv /tmp/wordpress/* $WORDPRESS_DIR/
+echo "Copiando archivos de WordPress a $WORDPRESS_DIR..."
+cp -r /tmp/wordpress/* "$WORDPRESS_DIR/"
 
 echo "Limpiando archivos temporales..."
 rm -rf /tmp/wordpress /tmp/wordpress.tar.gz
 
 mkdir -p /var/www/html
+
 echo "Copiando wp-config.php ..."
-cp $WP_CONFIG_SOURCE $WORDPRESS_DIR/wp-config.php
+cp "$WP_CONFIG_SOURCE" "$WORDPRESS_DIR/wp-config.php"
 
 echo "Ajustando permisos..."
-chown -R www-data:www-data $WORDPRESS_DIR
-chmod -R 755 $WORDPRESS_DIR
+chown -R www-data:www-data "$WORDPRESS_DIR"
+chmod -R 755 "$WORDPRESS_DIR"
 
 echo "¡WordPress instalado y configurado correctamente!"
