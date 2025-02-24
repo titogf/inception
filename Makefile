@@ -18,8 +18,10 @@ clean:
 	@echo "$(RED)Removing containers and images$(NC)"
 	sudo docker stop mariadb nginx wordpress
 	sudo docker rm nginx mariadb wordpress
-	sudo docker rmi nginx wordpress mariadb
+	sudo docker rmi srcs_nginx srcs_wordpress srcs_mariadb
 	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/*
+
+fclean: clean
 	docker system prune -f
 
 .PHONY: all up down re clean
