@@ -14,6 +14,8 @@ services:
       - inception
     depends_on:
       - wordpress
+    volumes:
+      - wordpress_files:/var/www/html
     restart: always
 
   wordpress:
