@@ -35,3 +35,5 @@ if [ ! -f "$WORDPRESS_DIR/index.php" ]; then
 else
     echo "${RED}WordPress ya está instalado. No es necesario ejecutar el script nuevamente.${NC}"
 fi
+
+exec "$@"

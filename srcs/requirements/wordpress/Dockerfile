@@ -1,6 +1,6 @@
 FROM debian:buster
 
-RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
+RUN mkdir -p /var/www/html /run/php && chown -R www-data:www-data /var/www/html /run/php
 
 RUN mkdir -p tmp && chown -R www-data:www-data tmp
 
