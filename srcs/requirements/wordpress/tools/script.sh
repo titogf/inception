@@ -5,10 +5,12 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 WORDPRESS_URL="https://wordpress.org/latest.tar.gz"
-WORDPRESS_DIR="/var/www/html"
+WORDPRESS_DIR="/var/www/html/wordpress"
 WP_CONFIG_SOURCE="/wp-config.php"
 
 if [ ! -f "$WORDPRESS_DIR/index.php" ]; then
+    mkdir -p "$WORDPRESS_DIR"
+
     echo "${GREEN}Descargando WordPress...${NC}"
     curl -sSL "$WORDPRESS_URL" -o /tmp/wordpress.tar.gz
 
@@ -21,8 +23,6 @@ if [ ! -f "$WORDPRESS_DIR/index.php" ]; then
     echo "${GREEN}Limpiando archivos temporales...${NC}"
     rm -rf /tmp/wordpress /tmp/wordpress.tar.gz
     rm -rf "$WORDPRESS_DIR/wp-config-sample.php"
-
-    mkdir -p /var/www/html
 
     echo "${GREEN}Copiando wp-config.php ...${NC}"
     cp "$WP_CONFIG_SOURCE" "$WORDPRESS_DIR/wp-config.php"
