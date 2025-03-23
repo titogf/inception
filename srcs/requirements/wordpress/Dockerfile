@@ -6,7 +6,7 @@ RUN mkdir -p tmp && chown -R www-data:www-data tmp
 
 WORKDIR /var/www/html
 
-RUN apt-get -y update && apt install -y php-fpm php-mysql curl
+RUN apt-get -y update && apt install -y php-fpm php-mysql curl mariadb-client
 
 COPY ./tools/script.sh /script.sh
 COPY ./conf/wp-config.php /wp-config.php

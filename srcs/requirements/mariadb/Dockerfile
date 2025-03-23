@@ -6,7 +6,7 @@ RUN mkdir -p /var/lib/mysql /var/log/mysql /var/run/mysqld && \
     chown -R mysql:mysql /var/lib/mysql /var/log/mysql /var/run/mysqld && \
     chmod -R 755 /var/lib/mysql /var/log/mysql /var/run/mysqld
 
-COPY ./conf/my.cnf /etc/mysql/my.cnf
+COPY ./conf/my.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./tools/script.sh /var/script.sh
 RUN chmod +x /var/script.sh
 
