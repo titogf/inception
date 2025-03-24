@@ -1,12 +1,15 @@
 FROM debian:buster
 
 RUN mkdir -p /var/www/html /run/php && chown -R www-data:www-data /var/www/html /run/php
-
 RUN mkdir -p tmp && chown -R www-data:www-data tmp
 
 WORKDIR /var/www/html
 
-RUN apt-get -y update && apt install -y php-fpm php-mysql curl mariadb-client
+RUN apt-get -y update && apt-get install -y php-fpm php-mysql curl mariadb-client unzip
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
 COPY ./tools/script.sh /script.sh
 COPY ./conf/wp-config.php /wp-config.php
