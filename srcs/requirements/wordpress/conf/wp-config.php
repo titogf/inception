@@ -20,8 +20,6 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('WP_SITEURL', 'https://gfernand.42.fr/wordpress');
-define('WP_HOME', 'https://gfernand.42.fr/wordpress');
 
 define( 'DB_NAME', 'maria_db');
 define( 'DB_USER', 'gonzalo');
