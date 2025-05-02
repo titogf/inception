@@ -5,8 +5,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 WORDPRESS_URL="https://wordpress.org/latest.tar.gz"
-WORDPRESS_DIR="/var/www/html/wordpress"
-WP_CONFIG_SOURCE="/wp-config.php"
+WORDPRESS_DIR="/var/www/html/"
 
 mkdir -p "$WORDPRESS_DIR"
 
@@ -23,8 +22,33 @@ echo "${GREEN}Limpiando archivos temporales...${NC}"
 rm -rf /tmp/wordpress /tmp/wordpress.tar.gz
 rm -rf "$WORDPRESS_DIR/wp-config-sample.php"
 
-echo "${GREEN}Copiando wp-config.php ...${NC}"
-cp "$WP_CONFIG_SOURCE" "$WORDPRESS_DIR/wp-config.php"
+cd "$WORDPRESS_DIR"
+
+echo "${GREEN}Creando wp-config.php dinámicamente...${NC}"
+wp config create \
+    --dbname="$DB_NAME" \
+    --dbuser="$DB_USER" \
+    --dbpass="$DB_PASSWORD" \
+    --dbhost="$DB_HOST" \
+    --allow-root
+
+echo "${GREEN}Instalando WordPress...${NC}"
+wp core install \
+    --url="$DOMAIN_NAME" \
+    --title="$WP_TITLE" \
+    --admin_user="$WP_ADMIN_USER" \
+    --admin_password="$WP_ADMIN_PASSWORD" \
+    --admin_email="$WP_ADMIN_EMAIL" \
+    --skip-email \
+    --allow-root
+
+echo "${GREEN}Creando usuario adicional...${NC}"
+wp user create "$DB_USER" "$DB_EMAIL" --role=author --user_pass="$DB_PASSWORD" --allow-root
+
+echo "${GREEN}Instalando tema y plugins...${NC}"
+wp theme install astra --activate --allow-root
+wp plugin install redis-cache --activate --allow-root
+wp plugin update --all --allow-root
 
 echo "${GREEN}Ajustando permisos...${NC}"
 chown -R www-data:www-data "$WORDPRESS_DIR"
