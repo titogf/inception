@@ -21,7 +21,4 @@ clean:
 	sudo docker rmi srcs_nginx srcs_wordpress srcs_mariadb
 	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/*
 
-fclean: clean
-	docker system prune -f
-
 .PHONY: all up down re clean
