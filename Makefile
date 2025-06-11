@@ -2,7 +2,13 @@ GREEN	= \033[0;32m
 RED		= \033[0;31m
 NC		= \033[0m
 
-all: up
+all: volumes up
+
+volumes:
+	@sudo rm -rf /home/gfernand/data/wordpress /home/gfernand/data/mariadb
+	@sudo mkdir -p /home/gfernand/data/wordpress /home/gfernand/data/mariadb
+	@sudo chown 33:33 /home/gfernand/data/wordpress
+	@sudo chown 101:101 /home/gfernand/data/mariadb
 
 up:
 	@echo "$(GREEN)Starting up containers$(NC)"

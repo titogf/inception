@@ -47,8 +47,8 @@ wp user create "$DB_USER" "$DB_EMAIL" --role=author --user_pass="$DB_PASSWORD" -
 
 echo "${GREEN}Instalando tema y plugins...${NC}"
 wp theme install astra --activate --allow-root
-wp plugin install redis-cache --activate --allow-root
-wp plugin update --all --allow-root
+#wp plugin install redis-cache --activate --allow-root
+#wp plugin update --all --allow-root
 
 echo "${GREEN}Ajustando permisos...${NC}"
 chown -R www-data:www-data "$WORDPRESS_DIR"
