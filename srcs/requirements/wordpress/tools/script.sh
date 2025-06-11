@@ -35,6 +35,12 @@ wp config create \
 # Establecer el límite de memoria
 wp config set WP_MEMORY_LIMIT '256M' --type=constant --allow-root
 
+# Insertar WP_DEBUG antes de require_once
+sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
+define( 'WP_DEBUG', true );\n\
+define( 'WP_DEBUG_LOG', true );\n\
+define( 'WP_DEBUG_DISPLAY', true );" "$WORDPRESS_DIR/wp-config.php"
+
 echo "${GREEN}Instalando WordPress...${NC}"
 wp core install \
     --url="$DOMAIN_NAME" \
@@ -47,11 +53,6 @@ wp core install \
 
 echo "${GREEN}Creando usuario adicional...${NC}"
 wp user create "$DB_USER" "$DB_EMAIL" --role=author --user_pass="$DB_PASSWORD" --allow-root
-
-echo "${GREEN}Instalando tema y plugins...${NC}"
-wp theme install astra --activate --allow-root
-#wp plugin install redis-cache --activate --allow-root
-#wp plugin update --all --allow-root
 
 echo "${GREEN}Ajustando permisos...${NC}"
 chown -R www-data:www-data "$WORDPRESS_DIR"
