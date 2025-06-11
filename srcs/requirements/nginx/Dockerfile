@@ -2,9 +2,9 @@ FROM debian:buster
 
 RUN apt-get -y update && apt-get -y install nginx openssl
 
-RUN mkdir -p /var/www/html /var/log/nginx /var/cache/nginx /etc/nginx
+RUN mkdir -p /wordpress /var/log/nginx /var/cache/nginx /etc/nginx
 
-RUN chmod 755 /var/www/html /var/log/nginx /var/cache/nginx /etc/nginx
+RUN chmod 755 /wordpress /var/log/nginx /var/cache/nginx /etc/nginx
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 

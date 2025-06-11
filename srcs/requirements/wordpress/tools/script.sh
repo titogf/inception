@@ -5,7 +5,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 WORDPRESS_URL="https://wordpress.org/latest.tar.gz"
-WORDPRESS_DIR="/var/www/html/"
+WORDPRESS_DIR="/wordpress/"
 
 mkdir -p "$WORDPRESS_DIR"
 
@@ -31,6 +31,9 @@ wp config create \
     --dbpass="$DB_PASSWORD" \
     --dbhost="$DB_HOST" \
     --allow-root
+
+# Establecer el límite de memoria
+wp config set WP_MEMORY_LIMIT '256M' --type=constant --allow-root
 
 echo "${GREEN}Instalando WordPress...${NC}"
 wp core install \
