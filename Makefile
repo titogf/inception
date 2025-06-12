@@ -39,6 +39,7 @@ clean:
 
 fclean: clean
 	@echo "$(RED)Removing volumes$(NC)"
-	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/* ~/data/mariadb/.db_configured 2>/dev/null || true
+	sudo rm -rf /home/gfernand/data/wordpress/* /home/gfernand/data/mariadb/* /home/gfernand/data/mariadb/.db_configured 2>/dev/null || true
+	sudo docker volume rm srcs_mariadb srcs_wordpress
 
 .PHONY: volumes all up down re clean fclean
