@@ -2,7 +2,15 @@ GREEN	= \033[0;32m
 RED		= \033[0;31m
 NC		= \033[0m
 
-all: up
+CONTAINERS = nginx wordpress mariadb
+
+all: volumes up
+
+volumes:
+	@sudo mkdir -p ~/data/wordpress ~/data/mariadb
+	@sudo chmod 755 ~/data
+	@sudo chown -R 33:33 ~/data/wordpress
+	@sudo chown -R 101:101 ~/data/mariadb
 
 up:
 	@echo "$(GREEN)Starting up containers$(NC)"
@@ -12,13 +20,25 @@ down:
 	@echo "$(RED)Stopping containers$(NC)"
 	docker-compose -f srcs/docker-compose.yml down
 
-re: down up
+re: fclean all
 
 clean:
-	@echo "$(RED)Removing containers and images$(NC)"
-	sudo docker stop mariadb nginx wordpress
-	sudo docker rm nginx mariadb wordpress
-	sudo docker rmi srcs_nginx srcs_wordpress srcs_mariadb
-	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/*
+	@echo "$(GREEN)Checking running containers...$(NC)"
+	@for container in $(CONTAINERS); do \
+		if docker ps -a --format '{{.Names}}' | grep -q "^$$container$$"; then \
+			@echo "$(RED)Stopping $${container}$(NC)"; \
+			docker stop $$container 2>/dev/null || true; \
+			@echo "$(RED)Removing $${container}$(NC)"; \
+			sudo docker rm $$container 2>/dev/null || true; \
+		else \
+			echo "$(GREEN)Container $${container} not found, skipping$(NC)"; \
+		fi; \
+	done
+	@echo "$(RED)Removing images$(NC)"
+	sudo docker rmi srcs_nginx srcs_wordpress srcs_mariadb 2>/dev/null || true
 
-.PHONY: all up down re clean
+fclean: clean
+	@echo "$(RED)Removing volumes$(NC)"
+	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/* ~/data/mariadb/.db_configured 2>/dev/null || true
+
+.PHONY: volumes all up down re clean fclean

@@ -15,7 +15,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - wordpress_files:/var/www/html
+      - wordpress:/wordpress
     restart: always
 
   wordpress:
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress_files:/var/www/html
+      - wordpress:/wordpress
     restart: always
 
   mariadb:
@@ -39,20 +39,20 @@ services:
     env_file:
       - .env
     volumes:
-      - db_data:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     restart: always
 
 volumes:
-  db_data:
+  mariadb:
     driver: local
     driver_opts:
       type: none
-      device: /home/debian/volumes/db_data
+      device: /home/gfernand/data/mariadb
       o: bind
       
-  wordpress_files:
+  wordpress:
     driver: local
     driver_opts:
       type: none
-      device: /home/debian/volumes/wordpress_files
+      device: /home/gfernand/data/wordpress
       o: bind
