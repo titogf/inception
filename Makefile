@@ -18,7 +18,7 @@ up:
 
 down:
 	@echo "$(RED)Stopping containers$(NC)"
-	docker-compose -f srcs/docker-compose.yml down
+	sudo docker-compose -f srcs/docker-compose.yml down
 
 re: fclean all
 
@@ -26,9 +26,9 @@ clean:
 	@echo "$(GREEN)Checking running containers...$(NC)"
 	@for container in $(CONTAINERS); do \
 		if docker ps -a --format '{{.Names}}' | grep -q "^$$container$$"; then \
-			@echo "$(RED)Stopping $${container}$(NC)"; \
-			docker stop $$container 2>/dev/null || true; \
-			@echo "$(RED)Removing $${container}$(NC)"; \
+			echo "$(RED)Stopping $${container}$(NC)"; \
+			sudo docker stop $$container 2>/dev/null || true; \
+			echo "$(RED)Removing $${container}$(NC)"; \
 			sudo docker rm $$container 2>/dev/null || true; \
 		else \
 			echo "$(GREEN)Container $${container} not found, skipping$(NC)"; \
