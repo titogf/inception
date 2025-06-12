@@ -26,19 +26,19 @@ clean:
 	@echo "$(GREEN)Checking running containers...$(NC)"
 	@for container in $(CONTAINERS); do \
 		if docker ps -a --format '{{.Names}}' | grep -q "^$$container$$"; then \
-			echo "$(RED)Stopping $${container}$(NC)"; \
+			@echo "$(RED)Stopping $${container}$(NC)"; \
 			docker stop $$container 2>/dev/null || true; \
-			echo "$(RED)Removing $${container}$(NC)"; \
-			docker rm $$container 2>/dev/null || true; \
+			@echo "$(RED)Removing $${container}$(NC)"; \
+			sudo docker rm $$container 2>/dev/null || true; \
 		else \
 			echo "$(GREEN)Container $${container} not found, skipping$(NC)"; \
 		fi; \
 	done
 	@echo "$(RED)Removing images$(NC)"
-	@docker rmi srcs_nginx srcs_wordpress srcs_mariadb 2>/dev/null || true
+	sudo docker rmi srcs_nginx srcs_wordpress srcs_mariadb 2>/dev/null || true
 
 fclean: clean
 	@echo "$(RED)Removing volumes$(NC)"
-	@sudo rm -rf ~/data/wordpress/* ~/data/mariadb/* ~/data/mariadb/.db_configured 2>/dev/null || true
+	sudo rm -rf ~/data/wordpress/* ~/data/mariadb/* ~/data/mariadb/.db_configured 2>/dev/null || true
 
 .PHONY: volumes all up down re clean fclean

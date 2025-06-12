@@ -47,12 +47,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/debian/data/mariadb
+      device: /home/gfernand/data/mariadb
       o: bind
       
   wordpress:
     driver: local
     driver_opts:
       type: none
-      device: /home/debian/data/wordpress
+      device: /home/gfernand/data/wordpress
       o: bind
