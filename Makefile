@@ -38,10 +38,9 @@ clean:
 	sudo docker rmi srcs_nginx srcs_wordpress srcs_mariadb 2>/dev/null || true
 
 fclean: clean
-	@echo "$(RED)Removing volumes$(NC)"
+	@echo "$(RED)Removing local volumes$(NC)"
 	@sudo rm -rf /home/gfernand/data/wordpress/* /home/gfernand/data/mariadb/* /home/gfernand/data/mariadb/.db_configured 2>/dev/null || true
-	@echo "local wordpress mariadb"
+	@echo "$(RED)Removing docker volumes$(NC)"
 	@sudo docker volume rm srcs_mariadb srcs_wordpress 2>/dev/null || true
-	@echo "docker srcs_wordpress srcs_mariadb"
 
 .PHONY: volumes all up down re clean fclean
